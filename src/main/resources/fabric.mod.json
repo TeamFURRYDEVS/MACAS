@@ -1,0 +1,39 @@
+{
+    "schemaVersion": 1,
+    "id": "macas",
+    "version": "${version}",
+    "name": "MACAS",
+    "description": "Attribute system for RPG styled mods and much more.",
+    "authors": [
+        "TheMonHub"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/project/macas",
+        "sources": "https://github.com/TeamFURRYDEVS/MACAS"
+    },
+    "license": "Apache-2.0",
+    "icon": "assets/macas/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            {
+                "value": "io.github.teamfurrydevs.macas.MACAS",
+                "adapter": "kotlin"
+            }
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "minecraft": "~26.2",
+        "java": ">=25",
+        "fabric-api": "*",
+        "fabric-language-kotlin": "*"
+    },
+    "custom": {
+        "modmenu": {
+            "badges": [
+                "library"
+            ]
+        }
+    }
+}
