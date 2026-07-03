@@ -22,9 +22,9 @@ repositories {
 	}
 }
 
-val minecraftVersion = providers.gradleProperty("minecraft_version").get()
+val minecraftVersion = property("minecraft_version") as String
 val loaderVersion = providers.gradleProperty("loader_version").get()
-val javaVersion = providers.gradleProperty("java_version").get().toInt()
+val javaVersion = (property("java_version") as String).toInt()
 
 assert(javaVersion >= 8) { "Java version must be at least 8!" }
 
@@ -44,11 +44,11 @@ dependencies {
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
 	implementation("net.fabricmc:fabric-loader:${loaderVersion}")
 
-	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
+	implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version") as String}")
     implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
 
 	runtimeOnly("com.ptsmods:devlogin:3.5.1:fabric")
-	runtimeOnly("com.terraformersmc:modmenu:${providers.gradleProperty("modmenu_version").get()}")
+	runtimeOnly("com.terraformersmc:modmenu:${property("modmenu_version") as String}")
 }
 
 tasks.processResources {
