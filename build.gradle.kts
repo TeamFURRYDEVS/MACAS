@@ -22,12 +22,28 @@ repositories {
 	}
 }
 
+val minecraftVersion = providers.gradleProperty("minecraft_version").get()
+val loaderVersion = providers.gradleProperty("loader_version").get()
+val javaVersion = providers.gradleProperty("java_version").get().toInt()
+
+assert(javaVersion >= 8) { "Java version must be at least 8!" }
+
+val jvmTargetVersion: JvmTarget
+    get() {
+		return JvmTarget.entries[javaVersion - 8]
+    }
+
+val javaCompatVersion: JavaVersion
+	get() {
+		return JavaVersion.entries[javaVersion]
+	}
+
+
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
-	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
+	minecraft("com.mojang:minecraft:${minecraftVersion}")
+	implementation("net.fabricmc:fabric-loader:${loaderVersion}")
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
     implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
 
@@ -36,32 +52,34 @@ dependencies {
 }
 
 tasks.processResources {
-	val version = version
 	inputs.property("version", version)
+	inputs.property("minecraft_version", minecraftVersion)
 
 	filesMatching("fabric.mod.json") {
-		expand("version" to version)
+		expand(
+			"version" to version,
+			"minecraft_version" to minecraftVersion,
+			"loader_version" to loaderVersion,
+			"java_version" to javaVersion
+		)
 	}
 }
 
 tasks.withType<JavaCompile>().configureEach {
-	options.release = 25
+	options.release = javaVersion
 }
 
 kotlin {
 	compilerOptions {
-		jvmTarget = JvmTarget.JVM_25
+		jvmTarget = jvmTargetVersion
 	}
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_25
-	targetCompatibility = JavaVersion.VERSION_25
+	sourceCompatibility = javaCompatVersion
+	targetCompatibility = javaCompatVersion
 }
 
 tasks.jar {
@@ -83,9 +101,6 @@ publishing {
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
+
 	}
 }
