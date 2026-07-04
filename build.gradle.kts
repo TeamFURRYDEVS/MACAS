@@ -28,11 +28,6 @@ val javaVersion = (property("java_version") as String).toInt()
 
 assert(javaVersion >= 8) { "Java version must be at least 8!" }
 
-val javaCompatMixin: String
-	get() {
-		return "JAVA_${javaVersion}"
-	}
-
 val jvmTargetVersion: JvmTarget
     get() {
 		return JvmTarget.entries[javaVersion - 8]
@@ -61,8 +56,6 @@ tasks.processResources {
 	inputs.property("loader_version", loaderVersion)
 	inputs.property("java_version", javaVersion)
 
-	inputs.property("java_compat_version", javaCompatMixin)
-
 	filesMatching("fabric.mod.json") {
 		expand(
 			"version" to version,
@@ -74,7 +67,7 @@ tasks.processResources {
 
 	filesMatching("macas.mixins.json") {
 		expand(
-			"java_compat_version" to javaCompatMixin
+			"java_version" to javaVersion
 		)
 	}
 }
