@@ -38,7 +38,6 @@ val javaCompatVersion: JavaVersion
 		return JavaVersion.entries[javaVersion]
 	}
 
-
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
@@ -54,13 +53,15 @@ dependencies {
 tasks.processResources {
 	inputs.property("version", version)
 	inputs.property("minecraft_version", minecraftVersion)
+	inputs.property("loader_version", loaderVersion)
+	inputs.property("java_version", javaVersion)
 
 	filesMatching("fabric.mod.json") {
 		expand(
 			"version" to version,
-			"minecraft_version" to minecraftVersion,
-			"loader_version" to loaderVersion,
-			"java_version" to javaVersion
+		 "minecraft_version" to minecraftVersion,
+		 "loader_version" to loaderVersion,
+		 "java_version" to javaVersion
 		)
 	}
 }
