@@ -3,7 +3,7 @@
     "package": "io.github.teamfurrydevs.macas.mixin",
     "compatibilityLevel": "JAVA_${java_version}",
     "mixins": [
-        "ExampleMixin"
+
     ],
     "injectors": {
         "defaultRequire": 1

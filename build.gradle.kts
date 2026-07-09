@@ -20,6 +20,11 @@ repositories {
 		name = "Terraformers"
 		url = uri("https://maven.terraformersmc.com/")
 	}
+
+	maven {
+		name = "Ladysnake Mods"
+		url = uri("https://maven.ladysnake.org/releases")
+	}
 }
 
 val minecraftVersion = property("minecraft_version") as String
@@ -39,12 +44,15 @@ val javaCompatVersion: JavaVersion
 	}
 
 dependencies {
-	// To change the versions see the gradle.properties file
+	val ccaVersion = property("cca_version") as String
+
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
 	implementation("net.fabricmc:fabric-loader:${loaderVersion}")
 
 	implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version") as String}")
     implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
+	implementation("org.ladysnake.cardinal-components-api:cardinal-components-base:$ccaVersion")
+	implementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:$ccaVersion")
 
 	runtimeOnly("com.ptsmods:devlogin:3.5.1:fabric")
 	runtimeOnly("com.terraformersmc:modmenu:${property("modmenu_version") as String}")
@@ -70,6 +78,9 @@ tasks.processResources {
 			"java_version" to javaVersion
 		)
 	}
+}
+
+loom {
 }
 
 tasks.withType<JavaCompile>().configureEach {

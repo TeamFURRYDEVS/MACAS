@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory
 object MACAS : ModInitializer {
 	const val MOD_ID: String = "macas"
 
-	val LOGGER: Logger = LoggerFactory.getLogger(MOD_ID)
+	@JvmField
+	internal val LOGGER: Logger = LoggerFactory.getLogger(MOD_ID)
 
 	override fun onInitialize() {
 		LOGGER.info("Monsters And Crafts Attribute System!")

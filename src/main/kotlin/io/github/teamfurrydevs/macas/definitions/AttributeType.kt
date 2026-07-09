@@ -1,4 +1,4 @@
-package io.github.teamfurrydevs.macas.attributedefinitions
+package io.github.teamfurrydevs.macas.definitions
 
 enum class AttributeType(val value: Int) {
     Perk(0),
